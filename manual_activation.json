@@ -1,0 +1,47 @@
+{
+  "plugin_id": "manual_activation",
+  "plugin_type": "widget",
+  "name": "Manual Activation Code Change",
+  "edit_page_url": "https://unohomeloans.com.au/home-loans/#search-questions",
+  "form_schema": [
+    {
+      "default_value": "page",
+      "field_type": "toggle",
+      "name": "activation_type",
+      "label": "Activation Type",
+      "options": {
+        "choices": [
+          {
+            "value": "all",
+            "label": "Activate Optimizely"
+          },
+          {
+            "value": "page",
+            "label": "Activate Page"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "uno_loan_page",
+      "field_type": "text",
+      "name": "page",
+      "label": "Page Name",
+      "options": null
+    },
+    {
+      "default_value": "#intro-question-refi-repaymenttype",
+      "field_type": "selector",
+      "name": "selector",
+      "label": "Select Conditional Element",
+      "options": null
+    }
+  ],
+  "description": "Manually activate an experiment",
+  "options": {
+    "apply_js": "$(document).ready(function() {\n  if (widget.activation_type == \"all\") {\n    setTimeout(function(){ \n      var op_showOnce = true;\n      console.log(\"Manual Codition Running: All\");\n      $('.simpleFormSection').bind(\"DOMSubtreeModified\",function(){\n        if(op_showOnce && $(widget.selector).length > 0){\n          window.optimizely = window.optimizely || [];\n    \t\t\twindow.optimizely.push({type: 'activate'});\n        }\n      });\n    }, 5000);\n  } else if (widget.activation_type == \"page\") {\n    setTimeout(function(){ \n      var op_showOnce = true;\n      console.log(\"Manual Codition Running: Page\");\n      $('.simpleFormSection').bind(\"DOMSubtreeModified\",function(){\n        if(op_showOnce && $(widget.selector).length > 0){\n          window.optimizely = window.optimizely || [];\n          window.optimizely.push({\n            type: \"page\",\n            pageName: widget.page\n          });\n        }\n      });\n    }, 5000);\n  }\n});\n",
+    "html": "<div id=\"optimizely-extension-{{ widget.$instance }}\" class=\"manual_activation\">\n  {{ extension.text }}\n</div>",
+    "css": ".manual_activation {\n color: red;\n}",
+    "undo_js": "$('#optimizely-extension-' + extension.$instance).remove();"
+  }
+}
