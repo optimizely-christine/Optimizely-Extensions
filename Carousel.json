@@ -1,0 +1,43 @@
+{
+  "plugin_id": "carousel",
+  "plugin_type": "widget",
+  "name": "Carousel - HomePage",
+  "edit_page_url": "https://www.arhaus.com/",
+  "form_schema": [
+    {
+      "default_value": "body > div.row.mainWrap > section > div:nth-child(3) > div",
+      "field_type": "selector",
+      "name": "selector",
+      "label": "selector",
+      "options": null
+    },
+    {
+      "default_value": "https://images.arhaus.com/is/image/Arhaus/images-12.6-f-f-hero-940?scl=1&qlt=100&",
+      "field_type": "image",
+      "name": "image_1",
+      "label": "image 1",
+      "options": null
+    },
+    {
+      "default_value": "https://images.arhaus.com/is/image/Arhaus/images-gift-guide-jewelry-hero?scl=1&qlt=100&",
+      "field_type": "image",
+      "name": "image_2",
+      "label": "image 2",
+      "options": null
+    },
+    {
+      "default_value": "https://images.arhaus.com/is/image/Arhaus/images-gift-guide-cocktail-gifts-hero?scl=1&qlt=100&",
+      "field_type": "image",
+      "name": "image_3",
+      "label": "image 3",
+      "options": null
+    }
+  ],
+  "description": "Add Carousel to Homepage",
+  "options": {
+    "apply_js": "$(function() {\n  $(extension.selector).prepend(extension.$html);\n});",
+    "html": "\n<div id=\"optimizely-extension-{{ widget.$instance }}\" class=\"wrapper\">\n  \n  <div id=\"carousel-example\" class=\"carousel slide\" data-ride=\"carousel\">\n    <div class=\"opty-a-spot__buttons\">\n    <a class=\"a-spot__button\" href=\"/en/product-list/wk48-mens-loungewear.html\" target=\"_self\" style=\"color: ; border-color: ;\">\n   <span class=\"a-spot__button-bg\" style=\"background-color: \"></span>\n   <span class=\"a-spot__button-text\">SHOP MEN'S</span>\n   </a>\n   <a class=\"a-spot__button\" href=\"/en/product-list/wk48-womens-loungewear.html\" target=\"_self\" style=\"color: ; border-color: ;\">\n   <span class=\"a-spot__button-bg\" style=\"background-color: \"></span>\n   <span class=\"a-spot__button-text\">SHOP WOMEN'S</span>\n  </a>\n            \n  </div>\n  <ol class=\"carousel-indicators\">\n    <li data-target=\"#carousel-example\" data-slide-to=\"0\" class=\"active\"></li>\n    <li data-target=\"#carousel-example\" data-slide-to=\"1\"></li>\n    <li data-target=\"#carousel-example\" data-slide-to=\"2\"></li>\n  </ol>\n\n  <div class=\"carousel-inner\">\n    <div class=\"item active\">\n      <a href=\"#\"><img src=\"{{ widget.image_1 }}\" /></a>\n      </div>\n    <div class=\"item\">\n      <a href=\"#\"><img src=\"{{ widget.image_2 }}\"/></a>\n     </div>   \n    <div class=\"item\">\n      <a href=\"#\"><img src=\"{{ widget.image_3 }}\" /></a>\n      \n  </div>\n\n  <a class=\"left carousel-control\" href=\"#carousel-example\" data-slide=\"prev\">\n    <span class=\"glyphicon glyphicon-chevron-left\"></span>\n  </a>\n  <a class=\"right carousel-control\" href=\"#carousel-example\" data-slide=\"next\">\n    <span class=\"glyphicon glyphicon-chevron-right\"></span>\n  </a>\n</div>\n</div>\n ",
+    "css": ".opty-a-spot__buttons{\n  position: absolute;\n  bottom: 100px;\n  right: 100px;\n  z-index: 1;\n}\n\n.carousel {\n  position: relative;\n}\n.carousel-inner {\n  position: relative;\n  overflow: hidden;\n  width: 100%;\n}\n.carousel-inner > .item {\n  display: none;\n  position: relative;\n  -webkit-transition: 0.6s ease-in-out left;\n  transition: 0.6s ease-in-out left;\n}\n.carousel-inner > .item > img,\n.carousel-inner > .item > a > img {\n  line-height: 1;\n}\n.carousel-inner > .active,\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  display: block;\n}\n.carousel-inner > .active {\n  left: 0;\n}\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n.carousel-inner > .next {\n  left: 100%;\n}\n.carousel-inner > .prev {\n  left: -100%;\n}\n.carousel-inner > .next.left,\n.carousel-inner > .prev.right {\n  left: 0;\n}\n.carousel-inner > .active.left {\n  left: -100%;\n}\n.carousel-inner > .active.right {\n  left: 100%;\n}\n.carousel-control {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 15%;\n  opacity: .5;\n  filter: alpha(opacity=50);\n  font-size: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n}\n.carousel-control.left {\n  background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0.0001) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);\n}\n.carousel-control.right {\n  left: auto;\n  right: 0;\n  background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.0001) 0), color-stop(rgba(0, 0, 0, 0.5) 100%));\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0, rgba(0, 0, 0, 0.5) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);\n}\n.carousel-control:hover,\n.carousel-control:focus {\n  outline: none;\n  color: #fff;\n  text-decoration: none;\n  opacity: .9;\n  filter: alpha(opacity=90);\n}\n.carousel-control .icon-prev,\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-left,\n.carousel-control .glyphicon-chevron-right {\n  position: absolute;\n  top: 50%;\n  z-index: 5;\n  display: inline-block;\n}\n.carousel-control .icon-prev,\n.carousel-control .glyphicon-chevron-left {\n  left: 50%;\n}\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-right {\n  right: 50%;\n}\n.carousel-control .icon-prev,\n.carousel-control .icon-next {\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  font-family: serif;\n}\n.carousel-control .icon-prev:before {\n  content: '\\2039';\n}\n.carousel-control .icon-next:before {\n  content: '\\203a';\n}\n.carousel-indicators {\n  position: absolute;\n  bottom: 10px;\n  left: 50%;\n  z-index: 15;\n  width: 60%;\n  margin-left: -30%;\n  padding-left: 0;\n  list-style: none;\n  text-align: center;\n}\n.carousel-indicators li {\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  margin: 1px;\n  text-indent: -999px;\n  border: 1px solid #fff;\n  border-radius: 10px;\n  cursor: pointer;\n  background-color: #000 \\9;\n  background-color: rgba(0, 0, 0, 0);\n}\n.carousel-indicators .active {\n  margin: 0;\n  width: 12px;\n  height: 12px;\n  background-color: #ffffff;\n}\n.carousel-caption {\n  position: absolute;\n  left: 15%;\n  right: 15%;\n  bottom: 20px;\n  z-index: 10;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n}\n.carousel-caption .btn {\n  text-shadow: none;\n}\n@media screen and (min-width: 768px) {\n  .carousel-control .glyphicon-chevron-left,\n  .carousel-control .glyphicon-chevron-right,\n  .carousel-control .icon-prev,\n  .carousel-control .icon-next {\n    width: 30px;\n    height: 30px;\n    margin-top: -15px;\n    margin-left: -15px;\n    font-size: 30px;\n  }\n  .carousel-caption {\n    left: 20%;\n    right: 20%;\n    padding-bottom: 30px;\n  }\n  .carousel-indicators {\n    bottom: 20px;\n  }\n}",
+    "undo_js": "$('#optimizely-extension-' + extension.$instance).remove();"
+  }
+}

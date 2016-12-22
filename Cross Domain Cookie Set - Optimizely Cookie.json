@@ -1,0 +1,47 @@
+{
+  "plugin_id": "cross_domain_cookie",
+  "plugin_type": "widget",
+  "name": "Cross Domain Cookie Set",
+  "edit_page_url": "https://www.buildium.com/",
+  "form_schema": [
+    {
+      "default_value": "https://managebuilding.com",
+      "field_type": "text",
+      "name": "url",
+      "label": "URL to Set Cookie",
+      "options": null
+    },
+    {
+      "default_value": "pass",
+      "field_type": "toggle",
+      "name": "set_pass",
+      "label": "Set or Pass Cookie",
+      "options": {
+        "choices": [
+          {
+            "value": "pass",
+            "label": "Pass"
+          },
+          {
+            "value": "set",
+            "label": "Set"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "managebuilding.com",
+      "field_type": "text",
+      "name": "domain",
+      "label": "Domain to Set Cookie",
+      "options": null
+    }
+  ],
+  "description": "",
+  "options": {
+    "apply_js": "\nfunction createCookie(value) {\n    var date = new Date();\n    date.setTime(date.getTime()+(3660*24*60*60*1000));\n    var expires = \"; expires=\"+date.toGMTString();\n    document.cookie = \"optimizelyEndUserId=\"+ value + expires + \n      \";domain=.\" + widget.domain + \";path=/\";;\n}\n\nfunction readCookie(name) {\n    var nameEQ = name + \"=\";\n    var ca = document.cookie.split(';');\n    for(var i=0;i < ca.length;i++) {\n        var c = ca[i];\n        while (c.charAt(0)==' ') c = c.substring(1,c.length);\n        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);\n    }\n    return null;\n}\n\nfunction eraseCookie(name) {\n    createCookie(name,\"\",-1);\n}\n\nfunction getParameterByName( name ){\n    var regexS = \"[\\\\?&]\"+name+\"=([^&#]*)\", \n  regex = new RegExp( regexS ),\n  results = regex.exec( window.location.search );\n  if( results == null ){\n    return \"\";\n  } else{\n    return decodeURIComponent(results[1].replace(/\\+/g, \" \"));\n  }\n}\n$(function() {\n  if(widget.set_pass == \"pass\"){\n    var op_cookie = readCookie(\"optimizelyEndUserId\");\n    if(op_cookie !== null){\n      var iframe = document.createElement('iframe');\n      iframe.style.display = 'none';\n      iframe.src = widget.url + \"?op_cookie=\" + op_cookie;\n      $('body').append(iframe);\n      console.log('cookie passed:', op_cookie);\n      console.log('iframe src:', iframe.src);\n    }\n  } else {\n    console.log('cookie set start');\n    var op_cookie2 = getParameterByName('op_cookie');\n    if(op_cookie2 !== null && op_cookie2 !== \"\"){\n    \tcreateCookie(op_cookie2);\n      console.log('cookie set:', op_cookie2);\n    }\n  }\n});\n\n",
+    "html": "<div id=\"optimizely-extension-{{ widget.$instance }}\" class=\"cross_domain_cookie\">\n  {{ extension.text }}\n</div>",
+    "css": ".cross_domain_cookie {\n color: red;\n}",
+    "undo_js": "$('#optimizely-extension-' + extension.$instance).remove();"
+  }
+}

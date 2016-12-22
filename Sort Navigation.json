@@ -1,0 +1,33 @@
+{
+  "plugin_id": "nav_sort",
+  "plugin_type": "widget",
+  "name": "Sort Navigation",
+  "edit_page_url": "https://www.marks.com/fr/home-page.html",
+  "form_schema": [
+    {
+      "default_value": "ascending",
+      "field_type": "dropdown",
+      "name": "sort_by",
+      "label": "Sort Navigation By",
+      "options": {
+        "choices": [
+          {
+            "value": "ascending",
+            "label": "Alphabetical"
+          },
+          {
+            "value": "popular",
+            "label": "Most Popular"
+          }
+        ]
+      }
+    }
+  ],
+  "description": "Sorts the navigation menu categories.",
+  "options": {
+    "apply_js": "\n$(function() {\n  var original = $(\".mega-menu__list-container\");\n  var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy\";\n  \n  if (extension.sort_by === \"popular\"){\n    $(\".mega-menu__list-container\").each(function(k,v) {\n      var categories = $(v).children();\n      categories = _.sortBy(categories, function(category){ \n        return ($(category).find(\"a\").html() == \"View All\" ? \"z\" + $(category).find(\"a\").html() : \n                possible.charAt(Math.floor(Math.random() * possible.length)));\n      });\n      \n        $(v).replaceWith($(categories));\n    });\n  }\n  if (extension.sort_by === \"ascending\"){\n    $(\".mega-menu__list-container\").each(function(k,v) {\n      var categories = $(v).children();\n      categories = _.sortBy(categories, function(category){ \n        return ($(category).find(\"a\").html() == \"View All\" ? \"Z\" + $(category).find(\"a\").html() : $(category).find(\"a\").html());\n      });\n        $(v).replaceWith($(categories));\n    });\n  }\n});",
+    "html": "",
+    "css": ".nav_sort {\n color: red;\n}",
+    "undo_js": ""
+  }
+}
