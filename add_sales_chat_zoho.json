@@ -1,0 +1,33 @@
+{
+  "plugin_id": "chat_modal",
+  "plugin_type": "widget",
+  "name": "Sales Chat Box",
+  "edit_page_url": "https://www.optimizely.com/products/experimentation/",
+  "form_schema": [
+    {
+      "default_value": "a",
+      "field_type": "toggle",
+      "name": "timing",
+      "label": "Timing",
+      "options": {
+        "choices": [
+          {
+            "value": "a",
+            "label": "Immediate"
+          },
+          {
+            "value": "b",
+            "label": "Delay"
+          }
+        ]
+      }
+    }
+  ],
+  "description": "Add a sales chat box to the page",
+  "options": {
+    "apply_js": "$(function() {\n  $('body').append(extension.$html);\n});",
+    "html": "<script type=\"text/javascript\">var $zoho= $zoho || {salesiq:{values:{},ready:function(){}}};var d=document;s=d.createElement(\"script\");s.type=\"text/javascript\";s.defer=true;s.src=\"https://salesiq.zoho.com/optimizely/float.ls?embedname=optimizely\";t=d.getElementsByTagName(\"script\")[0];t.parentNode.insertBefore(s,t);</script>",
+    "css": "",
+    "undo_js": "$('#optimizely-extension-' + extension.$instance).remove();"
+  }
+}
