@@ -1,0 +1,90 @@
+{
+  "plugin_id": "butter_bar_ext",
+  "plugin_type": "widget",
+  "name": "Banner Bar",
+  "edit_page_url": "https://www.optimizely.com/products/experimentation/",
+  "form_schema": [
+    {
+      "default_value": "position: fixed;bottom: 0;left: 0;",
+      "field_type": "toggle",
+      "name": "location",
+      "label": "Location",
+      "options": {
+        "choices": [
+          {
+            "value": "position: fixed;bottom: 0;left: 0;",
+            "label": "Bottom"
+          },
+          {
+            "value": "",
+            "label": "Top"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "#2a2e59",
+      "field_type": "color",
+      "name": "bg_color",
+      "label": "Background Color",
+      "options": {
+        "mode": "hex"
+      }
+    },
+    {
+      "default_value": "rgba(20, 178, 161, 1)",
+      "field_type": "color",
+      "name": "bg_color2",
+      "label": "Background Color 2",
+      "options": {
+        "mode": "rgba"
+      }
+    },
+    {
+      "default_value": "#ffffff",
+      "field_type": "color",
+      "name": "color",
+      "label": "Text Color",
+      "options": {
+        "mode": "hex"
+      }
+    },
+    {
+      "default_value": "https://www.optimizely.com/plans/",
+      "field_type": "text",
+      "name": "link",
+      "label": "Destination Link",
+      "options": null
+    },
+    {
+      "default_value": "View Plans",
+      "field_type": "text",
+      "name": "link_text",
+      "label": "Link Text",
+      "options": null
+    },
+    {
+      "default_value": "#ffffff",
+      "field_type": "color",
+      "name": "link_color",
+      "label": "Link Color",
+      "options": {
+        "mode": "hex"
+      }
+    },
+    {
+      "default_value": "Welcome | ",
+      "field_type": "text",
+      "name": "text",
+      "label": "Main Text",
+      "options": null
+    }
+  ],
+  "description": "Displays a banner bar at the top of the page.",
+  "options": {
+    "html": "<div id=\"optimizely-widget-{{ widget.$instance }}\" class=\"butter_bar\" style=\"background:-webkit-linear-gradient(left, {{ widget.bg_color }}, {{ widget.bg_color2 }}); color:{{widget.color}};{{widget.location}}\">\n  {{ widget.text }}<a href=\"{{ widget.link }}\" style=\"color:{{widget.link_color}};\">{{ widget.link_text }}</a>\n</div>",
+    "css": ".butter_bar {\n  vertical-align: middle;\n  line-height: 1.4;\n  text-decoration: none;\n  text-align: center;\n  display: block;\n  font-size: 16px !important;\n  font-weight: 600 !important;\n  color: #005da6;\n  padding: 10px 0px;\n  font-family: \"Gotham SSm A\",\"Gotham SSm B\",\"Whitney SSm A\",\"Whitney SSm B\",\"Whitney\",\"Helvetica Neue\",\"Helvetica\",Arial,sans-serif !important;\n    z-index: 999999999999; \n    width: 100%;\n}\n\n.butter_bar a {\n  font-size: 16px !important;\n  font-weight: 600 !important;\n  color: #005da6;\n  font-family: \"Gotham SSm A\",\"Gotham SSm B\",\"Whitney SSm A\",\"Whitney SSm B\",\"Whitney\",\"Helvetica Neue\",\"Helvetica\",Arial,sans-serif !important;\n}",
+    "apply_js": "$(function() {\n  var location = widget.location == \"\" ? \"body\" : \"body\";\n  $(location).prepend(widget.$html);\n});",
+    "undo_js": "$('#optimizely-widget-' + widget.$instance).remove();"
+  }
+}
