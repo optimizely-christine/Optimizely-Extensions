@@ -23,7 +23,7 @@
       }
     },
     {
-      "default_value": "#2a2e59",
+      "default_value": "#77c96f",
       "field_type": "color",
       "name": "bg_color",
       "label": "Background Color",
@@ -32,7 +32,7 @@
       }
     },
     {
-      "default_value": "rgba(20, 178, 161, 1)",
+      "default_value": "rgba(0, 129, 186, 1)",
       "field_type": "color",
       "name": "bg_color2",
       "label": "Background Color 2",
@@ -82,9 +82,9 @@
   ],
   "description": "Displays a banner bar at the top of the page.",
   "options": {
-    "html": "<div id=\"optimizely-widget-{{ widget.$instance }}\" class=\"butter_bar\" style=\"background:-webkit-linear-gradient(left, {{ widget.bg_color }}, {{ widget.bg_color2 }}); color:{{widget.color}};{{widget.location}}\">\n  {{ widget.text }}<a href=\"{{ widget.link }}\" style=\"color:{{widget.link_color}};\">{{ widget.link_text }}</a>\n</div>",
-    "css": ".butter_bar {\n  vertical-align: middle;\n  line-height: 1.4;\n  text-decoration: none;\n  text-align: center;\n  display: block;\n  font-size: 16px !important;\n  font-weight: 600 !important;\n  color: #005da6;\n  padding: 10px 0px;\n  font-family: \"Gotham SSm A\",\"Gotham SSm B\",\"Whitney SSm A\",\"Whitney SSm B\",\"Whitney\",\"Helvetica Neue\",\"Helvetica\",Arial,sans-serif !important;\n    z-index: 999999999999; \n    width: 100%;\n}\n\n.butter_bar a {\n  font-size: 16px !important;\n  font-weight: 600 !important;\n  color: #005da6;\n  font-family: \"Gotham SSm A\",\"Gotham SSm B\",\"Whitney SSm A\",\"Whitney SSm B\",\"Whitney\",\"Helvetica Neue\",\"Helvetica\",Arial,sans-serif !important;\n}",
-    "apply_js": "$(function() {\n  var location = widget.location == \"\" ? \"body\" : \"body\";\n  $(location).prepend(widget.$html);\n});",
-    "undo_js": "$('#optimizely-widget-' + widget.$instance).remove();"
+    "html": "<div id=\"optimizely-extension-{{ extension.$instance }}\" class=\"optly_butter_bar\" style=\"background:-webkit-linear-gradient(left, {{ extension.bg_color }}, {{ extension.bg_color2 }}); color:{{extension.color}};{{extension.location}}\">\n  {{ extension.text }}<a href=\"{{ extension.link }}\" style=\"color:{{extension.link_color}};\">{{ extension.link_text }}</a>\n</div>",
+    "css": ".optly_butter_bar {\n  vertical-align: middle !important;\n  line-height: 1.4 !important;\n  text-decoration: none !important;\n  text-align: center !important;\n  display: block !important;\n  font-size: 20px !important;\n  font-weight: 600 !important;\n  padding: 10px 0px !important;\n  z-index: 999999999999 !important; \n  width: 100% !important;\n}\n\n.optly_butter_bar a {\n  font-size: 20px !important;\n  font-weight: 600 !important;\n}",
+    "apply_js": "$(function() {\n  var location = extension.location == \"\" ? \"body\" : \"body\";\n  // if there is a header element present you may need to use:\n  // var location = extension.location == \"\" ? \"header\" : \"body\";\n\n  $(location).prepend(extension.$html);\n});",
+    "undo_js": "$('#optimizely-extension-' + extension.$instance).remove();"
   }
 }
