@@ -1,0 +1,65 @@
+{
+  "plugin_id": "optly_badges",
+  "plugin_type": "widget",
+  "name": "Product Badge",
+  "edit_page_url": "http://www.americanmusical.com/Item--i-DAD-EXL130",
+  "form_schema": [
+    {
+      "default_value": "new",
+      "field_type": "dropdown",
+      "name": "badge",
+      "label": "Badge Type",
+      "options": {
+        "choices": [
+          {
+            "value": "bs",
+            "label": "Payments Badge"
+          },
+          {
+            "value": "new",
+            "label": "Exclusive Badge"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "right",
+      "field_type": "toggle",
+      "name": "position",
+      "label": "Position",
+      "options": {
+        "choices": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "http://www.americanmusical.com/ItemFiles/Promotion8/8_PAY_icon_081514.jpg",
+      "field_type": "image",
+      "name": "best_seller_badge",
+      "label": "Payments Badge",
+      "options": null
+    },
+    {
+      "default_value": "http://www.americanmusical.com/ItemFiles/ItemFileType15/AMSExclusiveRun.jpg",
+      "field_type": "image",
+      "name": "new_badge",
+      "label": "Exclusive Badge",
+      "options": null
+    }
+  ],
+  "description": "Adds a new, or best seller badge to the PDP image.",
+  "options": {
+    "html": "",
+    "css": ".optly_badge {\n  position:absolute;  \n  top:5px;  \n  z-index: 10;\n}",
+    "apply_js": "$(function() {\n  var position = extension.position == \"left\" ? \"left:5px;\" : \"right:5px;\";  \n  var badge = document.createElement('img');\n  badge.setAttribute(\"class\", \"optly_badge\");\n  badge.setAttribute(\"style\", position);\n  badge.src = extension.badge == \"new\" ? extension.new_badge : extension.best_seller_badge; \t\t\t\n  $('#product-image').append(badge);\n});",
+    "undo_js": "$('.optly_badge').remove();"
+  }
+}
