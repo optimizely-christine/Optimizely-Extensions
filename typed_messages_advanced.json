@@ -1,0 +1,115 @@
+{
+  "plugin_id": "typed_js",
+  "plugin_type": "widget",
+  "name": "Typed Messages",
+  "edit_page_url": "https://www.optimizely.com/products/experimentation/",
+  "form_schema": [
+    {
+      "default_value": "#ffffff",
+      "field_type": "color",
+      "name": "bg_color",
+      "label": "Background Color",
+      "options": {
+        "mode": "hex"
+      }
+    },
+    {
+      "default_value": "rgba(89, 182, 219, 1)",
+      "field_type": "color",
+      "name": "bg_color2",
+      "label": "Background Color 2",
+      "options": {
+        "mode": "rgba"
+      }
+    },
+    {
+      "default_value": "no",
+      "field_type": "toggle",
+      "name": "change",
+      "label": "Change Message",
+      "options": {
+        "choices": [
+          {
+            "value": "no",
+            "label": "No"
+          },
+          {
+            "value": "yes",
+            "label": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "Optimizely Extensions!",
+      "field_type": "text",
+      "name": "message",
+      "label": "Message",
+      "options": null
+    },
+    {
+      "default_value": "Built by Optimizely!",
+      "field_type": "text",
+      "name": "message2",
+      "label": "2nd Message",
+      "options": null
+    },
+    {
+      "default_value": ".mkt-hero__header",
+      "field_type": "selector",
+      "name": "location",
+      "label": "Location",
+      "options": null
+    },
+    {
+      "default_value": "yes",
+      "field_type": "toggle",
+      "name": "overwrite",
+      "label": "Overwrite",
+      "options": {
+        "choices": [
+          {
+            "value": "no",
+            "label": "No"
+          },
+          {
+            "value": "yes",
+            "label": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "default_value": "h2",
+      "field_type": "text",
+      "name": "element_type",
+      "label": "Element Type",
+      "options": null
+    },
+    {
+      "default_value": "yes",
+      "field_type": "toggle",
+      "name": "loop",
+      "label": "Loop",
+      "options": {
+        "choices": [
+          {
+            "value": "no",
+            "label": "No"
+          },
+          {
+            "value": "yes",
+            "label": "Yes"
+          }
+        ]
+      }
+    }
+  ],
+  "description": "Enter in any string, and watch it type at the speed you've set!",
+  "options": {
+    "apply_js": "/** Typed JS Documentation: http://www.mattboldt.com/demos/typed-js/ **/\n\n\n$(function() {\n  \n  \"use strict\";\n\n    var Typed = function(el, options) {\n\n        // chosen element to manipulate text\n        this.el = $(el);\n\n        // options\n        this.options = $.extend({}, $.fn.typed.defaults, options);\n\n        // attribute to type into\n        this.isInput = this.el.is('input');\n        this.attr = this.options.attr;\n\n        // show cursor\n        this.showCursor = this.isInput ? false : this.options.showCursor;\n\n        // text content of element\n        this.elContent = this.attr ? this.el.attr(this.attr) : this.el.text();\n\n        // html or plain text\n        this.contentType = this.options.contentType;\n\n        // typing speed\n        this.typeSpeed = this.options.typeSpeed;\n\n        // add a delay before typing starts\n        this.startDelay = this.options.startDelay;\n\n        // backspacing speed\n        this.backSpeed = this.options.backSpeed;\n\n        // amount of time to wait before backspacing\n        this.backDelay = this.options.backDelay;\n\n        // div containing strings\n        this.stringsElement = this.options.stringsElement;\n\n        // input strings of text\n        this.strings = this.options.strings;\n\n        // character number position of current string\n        this.strPos = 0;\n\n        // current array position\n        this.arrayPos = 0;\n\n        // number to stop backspacing on.\n        // default 0, can change depending on how many chars\n        // you want to remove at the time\n        this.stopNum = 0;\n\n        // Looping logic\n        this.loop = this.options.loop;\n        this.loopCount = this.options.loopCount;\n        this.curLoop = 0;\n\n        // for stopping\n        this.stop = false;\n\n        // custom cursor\n        this.cursorChar = this.options.cursorChar;\n\n        // shuffle the strings\n        this.shuffle = this.options.shuffle;\n        // the order of strings\n        this.sequence = [];\n\n        // All systems go!\n        this.build();\n    };\n\n    Typed.prototype = {\n\n        constructor: Typed,\n\n        init: function() {\n            // begin the loop w/ first current string (global self.strings)\n            // current string will be passed as an argument each time after this\n            var self = this;\n            self.timeout = setTimeout(function() {\n                for (var i=0;i<self.strings.length;++i) self.sequence[i]=i;\n\n                // shuffle the array if true\n                if(self.shuffle) self.sequence = self.shuffleArray(self.sequence);\n\n                // Start typing\n                self.typewrite(self.strings[self.sequence[self.arrayPos]], self.strPos);\n            }, self.startDelay);\n        },\n\n        build: function() {\n            var self = this;\n            // Insert cursor\n            if (this.showCursor === true) {\n                this.cursor = $(\"<span class=\\\"typed-cursor\\\">\" + this.cursorChar + \"</span>\");\n                this.el.after(this.cursor);\n            }\n            if (this.stringsElement) {\n                self.strings = [];\n                this.stringsElement.hide();\n                var strings = this.stringsElement.find('p');\n                $.each(strings, function(key, value){\n                    self.strings.push($(value).html());\n                });\n            }\n            this.init();\n        },\n\n        // pass current string state to each function, types 1 char per call\n        typewrite: function(curString, curStrPos) {\n            // exit when stopped\n            if (this.stop === true) {\n                return;\n            }\n\n            // varying values for setTimeout during typing\n            // can't be global since number changes each time loop is executed\n            var humanize = Math.round(Math.random() * (100 - 30)) + this.typeSpeed;\n            var self = this;\n\n            // ------------- optional ------------- //\n            // backpaces a certain string faster\n            // ------------------------------------ //\n            // if (self.arrayPos == 1){\n            //  self.backDelay = 50;\n            // }\n            // else{ self.backDelay = 500; }\n\n            // contain typing function in a timeout humanize'd delay\n            self.timeout = setTimeout(function() {\n                // check for an escape character before a pause value\n                // format: \\^\\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^\n                // single ^ are removed from string\n                var charPause = 0;\n                var substr = curString.substr(curStrPos);\n                if (substr.charAt(0) === '^') {\n                    var skip = 1; // skip atleast 1\n                    if (/^\\^\\d+/.test(substr)) {\n                        substr = /\\d+/.exec(substr)[0];\n                        skip += substr.length;\n                        charPause = parseInt(substr);\n                    }\n\n                    // strip out the escape character and pause value so they're not printed\n                    curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);\n                }\n\n                if (self.contentType === 'html') {\n                    // skip over html tags while typing\n                    var curChar = curString.substr(curStrPos).charAt(0);\n                    if (curChar === '<' || curChar === '&') {\n                        var tag = '';\n                        var endTag = '';\n                        if (curChar === '<') {\n                            endTag = '>';\n                        } else {\n                            endTag = ';';\n                        }\n                        while (curString.substr(curStrPos).charAt(0) !== endTag) {\n                            tag += curString.substr(curStrPos).charAt(0);\n                            curStrPos++;\n                        }\n                        curStrPos++;\n                        tag += endTag;\n                    }\n                }\n\n                // timeout for any pause after a character\n                self.timeout = setTimeout(function() {\n                    if (curStrPos === curString.length) {\n                        // fires callback function\n                        self.options.onStringTyped(self.arrayPos);\n\n                        // is this the final string\n                        if (self.arrayPos === self.strings.length - 1) {\n                            // animation that occurs on the last typed string\n                            self.options.callback();\n\n                            self.curLoop++;\n\n                            // quit if we wont loop back\n                            if (self.loop === false || self.curLoop === self.loopCount)\n                                return;\n                        }\n\n                        self.timeout = setTimeout(function() {\n                            self.backspace(curString, curStrPos);\n                        }, self.backDelay);\n                    } else {\n\n                        /* call before functions if applicable */\n                        if (curStrPos === 0)\n                            self.options.preStringTyped(self.arrayPos);\n\n                        // start typing each new char into existing string\n                        // curString: arg, self.el.html: original text inside element\n                        var nextString = curString.substr(0, curStrPos + 1);\n                        if (self.attr) {\n                            self.el.attr(self.attr, nextString);\n                        } else {\n                            if (self.isInput) {\n                                self.el.val(nextString);\n                            } else if (self.contentType === 'html') {\n                                self.el.html(nextString);\n                            } else {\n                                self.el.text(nextString);\n                            }\n                        }\n\n                        // add characters one by one\n                        curStrPos++;\n                        // loop the function\n                        self.typewrite(curString, curStrPos);\n                    }\n                    // end of character pause\n                }, charPause);\n\n                // humanized value for typing\n            }, humanize);\n\n        },\n\n        backspace: function(curString, curStrPos) {\n            // exit when stopped\n            if (this.stop === true) {\n                return;\n            }\n\n            // varying values for setTimeout during typing\n            // can't be global since number changes each time loop is executed\n            var humanize = Math.round(Math.random() * (100 - 30)) + this.backSpeed;\n            var self = this;\n\n            self.timeout = setTimeout(function() {\n\n                // ----- this part is optional ----- //\n                // check string array position\n                // on the first string, only delete one word\n                // the stopNum actually represents the amount of chars to\n                // keep in the current string. In my case it's 14.\n                // if (self.arrayPos == 1){\n                //  self.stopNum = 14;\n                // }\n                //every other time, delete the whole typed string\n                // else{\n                //  self.stopNum = 0;\n                // }\n\n                if (self.contentType === 'html') {\n                    // skip over html tags while backspacing\n                    if (curString.substr(curStrPos).charAt(0) === '>') {\n                        var tag = '';\n                        while (curString.substr(curStrPos).charAt(0) !== '<') {\n                            tag -= curString.substr(curStrPos).charAt(0);\n                            curStrPos--;\n                        }\n                        curStrPos--;\n                        tag += '<';\n                    }\n                }\n\n                // ----- continue important stuff ----- //\n                // replace text with base text + typed characters\n                var nextString = curString.substr(0, curStrPos);\n                if (self.attr) {\n                    self.el.attr(self.attr, nextString);\n                } else {\n                    if (self.isInput) {\n                        self.el.val(nextString);\n                    } else if (self.contentType === 'html') {\n                        self.el.html(nextString);\n                    } else {\n                        self.el.text(nextString);\n                    }\n                }\n\n                // if the number (id of character in current string) is\n                // less than the stop number, keep going\n                if (curStrPos > self.stopNum) {\n                    // subtract characters one by one\n                    curStrPos--;\n                    // loop the function\n                    self.backspace(curString, curStrPos);\n                }\n                // if the stop number has been reached, increase\n                // array position to next string\n                else if (curStrPos <= self.stopNum) {\n                    self.arrayPos++;\n\n                    if (self.arrayPos === self.strings.length) {\n                        self.arrayPos = 0;\n\n                        // Shuffle sequence again\n                        if(self.shuffle) self.sequence = self.shuffleArray(self.sequence);\n\n                        self.init();\n                    } else\n                        self.typewrite(self.strings[self.sequence[self.arrayPos]], curStrPos);\n                }\n\n                // humanized value for typing\n            }, humanize);\n\n        },\n\n        /**\n         * Shuffles the numbers in the given array.\n         * @param {Array} array\n         * @returns {Array}\n         */\n        shuffleArray: function(array) {\n            var tmp, current, top = array.length;\n            if(top) while(--top) {\n                current = Math.floor(Math.random() * (top + 1));\n                tmp = array[current];\n                array[current] = array[top];\n                array[top] = tmp;\n            }\n            return array;\n        },\n\n        // Start & Stop currently not working\n\n        // stop: function() {\n        //     var self = this;\n\n        //     self.stop = true;\n        //     clearInterval(self.timeout);\n        // },\n\n        // start: function() {\n        //     var self = this;\n        //     if(self.stop === false)\n        //        return;\n\n        //     this.stop = false;\n        //     this.init();\n        // },\n\n        // Reset and rebuild the element\n\n        reset: function() {\n            var self = this;\n            clearInterval(self.timeout);\n            // Clear the element from previous text\n            this.el.empty();\n            if (typeof this.cursor !== 'undefined') {\n                this.cursor.remove();\n            }\n            self.strPos = 0;\n            self.arrayPos = 0;\n            self.curLoop = 0;\n            // Send the callback\n            self.options.resetCallback();\n        }\n\n    };\n\n    $.fn.typed = function(option) {\n        return this.each(function() {\n            var $this = $(this),\n                data = $this.data('typed'),\n                options = typeof option == 'object' && option;\n            if (data) data.reset();\n            $this.data('typed', (data = new Typed(this, options)));\n            if (typeof option == 'string') data[option]();\n        });\n    };\n\n    $.fn.typed.defaults = {\n        strings: [\"These are the default values...\", \"You know what you should do?\", \"Use your own!\", \"Have a great day!\"],\n        stringsElement: null,\n        // typing speed\n        typeSpeed: 0,\n        // time before typing starts\n        startDelay: 0,\n        // backspacing speed\n        backSpeed: 0,\n        // shuffle the strings\n        shuffle: false,\n        // time before backspacing\n        backDelay: 500,\n        // loop\n        loop: false,\n        // false = infinite\n        loopCount: false,\n        // show cursor\n        showCursor: true,\n        // character for cursor\n        cursorChar: \"|\",\n        // attribute to type (null == text)\n        attr: null,\n        // either html or text\n        contentType: 'html',\n        // call when done callback function\n        callback: function() {},\n        // starting callback function before each string\n        preStringTyped: function() {},\n        //callback for every typed string\n        onStringTyped: function() {},\n        // callback for reset\n        resetCallback: function() {}\n    };\n  \n  var message_array = [];\n  if(!window.original_message){\n  \twindow.original_message = $(extension.location).text();\n  }\n  \n  if(extension.overwrite == \"yes\"){\n\n  \n    $(extension.location).css(\"background\", \"-webkit-linear-gradient(left, \" + extension.bg_color + \n        \", \" +  extension.bg_color2 + \")\");\n    $(extension.location).css(\"-webkit-background-clip\", \"text\");\n    $(extension.location).css(\"webkit-text-fill-color\", \"transparent\");\n    $(extension.location).addClass( \"optly_typed\" );\n\n    if(extension.change == \"no\"){\n      message_array.push(window.original_message);\n    } else {\n      message_array.push(extension.message);\n      if(extension.message2 !== \"\"){\n        message_array.push(extension.message2);\n      }\n    }\n\n    $(extension.location).html(\"\\&nbsp;\");\n\n  } else {\n  \t$(extension.location).prepend(extension.$html);\n    message_array.push(extension.message);\n    if(extension.message2 !== \"\"){\n      message_array.push(extension.message2);\n    }\n  }\n  \n  $(\".optly_typed\").typed({\n        strings: message_array,\n        typeSpeed: 50,\n    \t\tbackSpeed: 40,\n        backDelay:5000,\n        cursorChar: \"\",\n        loop: extension.loop == \"no\" ? false : true\n        });\n\n});",
+    "html": "<{{extension.element_type}} id=\"optimizely-extension-{{ extension.$instance }}\" style=\"background: -webkit-linear-gradient(left, {{ extension.bg_color }}, {{ extension.bg_color2 }});-webkit-background-clip: text;-webkit-text-fill-color: transparent;\" class=\"optly_typed\">&nbsp;</{{extension.element_type}}>\n",
+    "css": ".optly_typed{\n}",
+    "undo_js": "$(extension.location).html(window.original_message);\n$('#optimizely-extension-' + extension.$instance).remove();\n\n"
+  }
+}
